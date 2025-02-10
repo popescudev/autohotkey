@@ -2,13 +2,16 @@
 ; press CTRL+number: registers shortcut to active window
 ; press the number: switch to the regiestered window
 ; toggle on/off the hotkeys
+; optional: mouse in the middle, not stable
 
 ; backlog:
 ;
 
+
 ; settings:
 ; this flag enables hotkey to show windows mapped
-isDebugMapped := true 
+isDebugMapped := true
+isPosionMouseInMiddleWindow := false
 
 ;
 ; This dictionary<int, int> holds key = keyboard numbers 0-9, value = Hwnd of an opened application
@@ -109,42 +112,52 @@ CTRL+\
 1:: ; 1
 {
     ActivateWindowForKey(1)
+    PositionMouseInTheMiddle()
 }
 2:: ; 2
 {
     ActivateWindowForKey(2)
+    PositionMouseInTheMiddle()
 }
 3:: ; 3
 {
     ActivateWindowForKey(3)
+    PositionMouseInTheMiddle()
 }
 4:: ; 4
 {
     ActivateWindowForKey(4)
+    PositionMouseInTheMiddle()
 }
 5:: ; 5
 {
     ActivateWindowForKey(5)
+    PositionMouseInTheMiddle()
 }
 6:: ; 6
 {
     ActivateWindowForKey(6)
+    PositionMouseInTheMiddle()
 }
 7:: ; 7
 {
     ActivateWindowForKey(7)
+    PositionMouseInTheMiddle()
 }
 8:: ; 8
 {
     ActivateWindowForKey(8)
+    PositionMouseInTheMiddle()
 }
 9:: ; 9
 {
     ActivateWindowForKey(9)
+    PositionMouseInTheMiddle()
 }
 0:: ; 0
 {
     ActivateWindowForKey(0)
+    PositionMouseInTheMiddle()
 }
 
 ^\:: { ; CTRL+\
@@ -171,6 +184,22 @@ ActivateWindowForKey(nKey) {
 
     WinActivate { Hwnd: windowsToNumbers[nKey] }
 }
+
+PositionMouseInTheMiddle() {
+    if (isPosionMouseInMiddleWindow) {
+
+        ; Get the active window's position and size
+        WinGetClientPos &x, &y, &width, &height, "A"
+        
+        ; Calculate the center position
+        centerX := x + (width // 2)
+        centerY := y + (height // 2)
+        
+        ; Move the mouse to the center position
+        MouseMove centerX, centerY
+    }
+}
+
 ToggleKeys() {
     Hotkey "^1", "Toggle"
     Hotkey "^2", "Toggle"
